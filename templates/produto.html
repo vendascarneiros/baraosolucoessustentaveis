@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ produto.nome }}{% endblock %}
+
+{% block content %}
+    <h2>{{ produto.nome }}</h2>
+    <p><strong>Preço:</strong> R$ {{ "%.2f"|format(produto.preco) }}</p>
+    <p><strong>Descrição:</strong> {{ produto.descricao }}</p>
+    
+    <hr>
+
+    {% if produto.disponivel_site %}
+        <h3>Opção 1: Comprar no Site</h3>
+        <form method="POST" action="{{ url_for('comprar_site', id_produto=id) }}">
+            <button type="submit" style="background-color: green; color: white; padding: 10px;">
+                ✅ Comprar Agora (R$ {{ "%.2f"|format(produto.preco) }})
+            </button>
+        </form>
+        <p>Processamento rápido e direto!</p>
+    {% else %}
+        <p style="color: red;">❌ Temporariamente indisponível para compra direta no site.</p>
+    {% endif %}
+
+    <hr>
+    
+    <h3>Opção 2: Comprar no Mercado Livre</h3>
+    <a href="{{ produto.link_ml }}" target="_blank">
+        <button style="background-color: blue; color: white; padding: 10px; margin-top: 10px;">
+            🔗 Ir para o Mercado Livre
+        </button>
+    </a>
+    <p>Aproveite as formas de pagamento e envio do Mercado Livre!</p>
+    
+    <hr>
+    <a href="{{ url_for('index') }}">← Voltar para a lista de produtos</a>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Produtos em Destaque{% endblock %}
+
+{% block content %}
+    <h2>Produtos Disponíveis</h2>
+    
+    {% for id, produto in produtos %}
+    <div class="produto-card">
+        <h3>{{ produto.nome }}</h3>
+        <p><strong>Preço:</strong> R$ {{ "%.2f"|format(produto.preco) }}</p>
+        <p>{{ produto.descricao }}</p>
+        <a href="{{ url_for('produto', id_produto=id) }}">Ver Detalhes</a>
+    </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Compra Realizada com Sucesso!{% endblock %}
+
+{% block content %}
+    <h2>🎉 Compra Confirmada!</h2>
+    <p>Agradecemos a sua compra do **{{ nome_produto }}**.</p>
+    <p>Você receberá um email com os detalhes do seu pedido em breve.</p>
+    
+    <a href="{{ url_for('index') }}" style="display: block; margin-top: 20px;">
+        Voltar para a página inicial
+    </a>
+{% endblock %}
