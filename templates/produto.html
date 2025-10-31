@@ -1,36 +1,67 @@
 {% extends "base.html" %}
 
-{% block title %}{{ produto.nome }}{% endblock %}
+{% block title %}Detalhes do Produto: {{ produto.nome }}{% endblock %}
 
 {% block content %}
-    <h2>{{ produto.nome }}</h2>
-    <p><strong>Preço:</strong> R$ {{ "%.2f"|format(produto.preco) }}</p>
-    <p><strong>Descrição:</strong> {{ produto.descricao }}</p>
-    
-    <hr>
+    <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-sm mb-4">← Voltar para a Lista de Produtos</a>
 
-    {% if produto.disponivel_site %}
-        <h3>Opção 1: Comprar no Site</h3>
-        <form method="POST" action="{{ url_for('comprar_site', id_produto=id) }}">
-            <button type="submit" style="background-color: green; color: white; padding: 10px;">
-                ✅ Comprar Agora (R$ {{ "%.2f"|format(produto.preco) }})
-            </button>
-        </form>
-        <p>Processamento rápido e direto!</p>
-    {% else %}
-        <p style="color: red;">❌ Temporariamente indisponível para compra direta no site.</p>
-    {% endif %}
+    <div class="row">
+        
+        {# Coluna de Imagem/Descrição (Exemplo de layout) #}
+        <div class="col-lg-6">
+            <h1 class="mb-3">{{ produto.nome }}</h1>
+            
+            <p class="lead">
+                <span class="badge bg-success fs-5">R$ {{ "%.2f"|format(produto.preco) }}</span>
+            </p>
 
-    <hr>
-    
-    <h3>Opção 2: Comprar no Mercado Livre</h3>
-    <a href="{{ produto.link_ml }}" target="_blank">
-        <button style="background-color: blue; color: white; padding: 10px; margin-top: 10px;">
-            🔗 Ir para o Mercado Livre
-        </button>
-    </a>
-    <p>Aproveite as formas de pagamento e envio do Mercado Livre!</p>
-    
-    <hr>
-    <a href="{{ url_for('index') }}">← Voltar para a lista de produtos</a>
+            <h3 class="mt-4">Descrição Completa</h3>
+            <p>{{ produto.descricao }}</p>
+
+            <hr>
+
+            {# Status de Disponibilidade #}
+            {% if produto.disponivel_site %}
+                <p class="text-success fw-bold"><i class="bi bi-check-circle-fill"></i> Compra Direta no Site Disponível!</p>
+            {% else %}
+                <p class="text-danger fw-bold"><i class="bi bi-x-circle-fill"></i> Apenas via Mercado Livre no momento.</p>
+            {% endif %}
+
+        </div>
+
+        {# Coluna de Opções de Compra #}
+        <div class="col-lg-6 mt-4 mt-lg-0">
+            <div class="card shadow-lg p-3">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">Escolha sua Opção de Compra</h4>
+
+                    {# Opção 1: Comprar no Site (Destaque Principal) #}
+                    {% if produto.disponivel_site %}
+                    <div class="mb-4 p-3 border border-success rounded-3 bg-light">
+                        <h5 class="text-success">Opção 1: Compra Rápida no Site</h5>
+                        <p class="text-muted small">Finalize a compra diretamente aqui para agilizar o processo.</p>
+                        
+                        <form method="POST" action="{{ url_for('comprar_site', id_produto=id) }}">
+                            <button type="submit" class="btn btn-success btn-lg w-100">
+                                COMPRAR AGORA (R$ {{ "%.2f"|format(produto.preco) }})
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    {# Opção 2: Ir para o Mercado Livre #}
+                    <div class="p-3 border rounded-3">
+                        <h5 class="text-primary">Opção 2: Comprar via Mercado Livre</h5>
+                        <p class="text-muted small">Aproveite o frete e as formas de pagamento do Mercado Livre.</p>
+
+                        <a href="{{ produto.link_ml }}" target="_blank" class="btn btn-outline-primary btn-lg w-100">
+                            IR PARA O MERCADO LIVRE
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
