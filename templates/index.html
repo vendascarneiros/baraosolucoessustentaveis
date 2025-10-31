@@ -3,14 +3,40 @@
 {% block title %}Produtos em Destaque{% endblock %}
 
 {% block content %}
-    <h2>Produtos Disponíveis</h2>
-    
-    {% for id, produto in produtos %}
-    <div class="produto-card">
-        <h3>{{ produto.nome }}</h3>
-        <p><strong>Preço:</strong> R$ {{ "%.2f"|format(produto.preco) }}</p>
-        <p>{{ produto.descricao }}</p>
-        <a href="{{ url_for('produto', id_produto=id) }}">Ver Detalhes</a>
+    <h2 class="mb-4">Produtos em Destaque</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {# O "row-cols" garante que a grade seja responsiva: 1 coluna no celular, 2 no tablet e 3 no desktop #}
+        
+        {% for id, produto in produtos %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                
+                {# TODO: Adicionar a imagem do produto aqui quando a pasta static for configurada #}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ produto.nome }}</h5>
+                    <p class="card-text text-muted">{{ produto.descricao[:70] }}...</p> 
+                    {# Exibe só os primeiros 70 caracteres da descrição #}
+                </div>
+                
+                <div class="card-footer bg-light border-0">
+                    <h4 class="text-success mb-3">R$ {{ "%.2f"|format(produto.preco) }}</h4>
+                    
+                    {# Botão para ver os detalhes do produto #}
+                    <a href="{{ url_for('produto', id_produto=id) }}" class="btn btn-primary w-100">
+                        Ver Detalhes e Opções de Compra
+                    </a>
+
+                    {# Status de Disponibilidade (Opcional, mas útil) #}
+                    {% if produto.disponivel_site %}
+                        <small class="text-success d-block mt-2">Disponível no Site!</small>
+                    {% else %}
+                        <small class="text-danger d-block mt-2">Disponível Apenas no ML</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
     </div>
-    {% endfor %}
 {% endblock %}
