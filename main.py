@@ -2,23 +2,43 @@ from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
-# Simulação de um banco de dados de produtos
+# --- NOVOS PRODUTOS REAIS ---
 PRODUTOS = {
     "1": {
-        "nome": "Smartphone Modelo X",
-        "preco": 1500.00,
-        "descricao": "Um smartphone poderoso com câmera de alta resolução.",
-        "link_ml": "https://www.mercadolivre.com.br/smartphone-modelo-x/p/MLB12345678", # Substitua pelo link real
-        "disponivel_site": True
+        "nome": "Válvula 2 Polegadas Para Carneiro Hidráulico",
+        "preco": 255.00,
+        "descricao": "Válvula de retenção em bronze de 2 polegadas, ideal para o coração do seu Carneiro Hidráulico.",
+        "link_ml": "https://mercadolivre.com/sec/2q3DLFy",
+        "disponivel_site": True, # Assume que a compra no site está ativa
+        "img_url": "1000011480_valvula2pol.jpg" # Nome fictício para a imagem no Mercado Livre
     },
     "2": {
-        "nome": "Notebook Gamer Y",
-        "preco": 6800.00,
-        "descricao": "O melhor para jogos e produtividade.",
-        "link_ml": "https://www.mercadolivre.com.br/notebook-gamer-y/p/MLB87654321", # Substitua pelo link real
-        "disponivel_site": False
+        "nome": "Carneiro Hidráulico N1 PVC (Modelo Básico)",
+        "preco": 454.50,
+        "descricao": "Carneiro Hidráulico N1 em PVC, um modelo acessível e eficiente para bombeamento de água.",
+        "link_ml": "https://mercadolivre.com/sec/29X1pkd",
+        "disponivel_site": False, # Assume que a compra no site está desativada
+        "img_url": "1000011480_carneiropvc.jpg" 
+    },
+    "3": {
+        "nome": "Válvula Para Carneiro Hidráulico N 40 Aço Inox",
+        "preco": 180.00, # Preço ajustado, pois não estava visível na imagem
+        "descricao": "Válvula robusta N 40 em Aço Inox para máxima durabilidade e desempenho no seu Carneiro Hidráulico.",
+        "link_ml": "https://mercadolivre.com/sec/2fZ79SA",
+        "disponivel_site": True,
+        "img_url": "1000011480_valvula40inox.jpg" 
+    },
+    "4": {
+        "nome": "Carneiro Hidráulico Barão Da Cunha 50mm",
+        "preco": 750.00, # Preço ajustado, pois não estava visível na imagem
+        "descricao": "Modelo de alto desempenho 'Barão da Cunha' de 50mm. Máxima eficiência de bombeamento garantida.",
+        "link_ml": "https://mercadolivre.com/sec/22mvpP4",
+        "disponivel_site": True,
+        "img_url": "1000011480_carneiro50mm.jpg" 
     }
 }
+# --- FIM DOS NOVOS PRODUTOS REAIS ---
+
 
 @app.route("/")
 def index():
@@ -42,7 +62,7 @@ def comprar_site(id_produto):
     if not produto_info or not produto_info.get("disponivel_site"):
         return "Compra no site indisponível ou produto não encontrado.", 400
 
-    # Lógica de processamento de pagamento e estoque... (Ex: Integração com Mercado Pago, etc.)
+    # Lógica de processamento de pagamento e estoque...
 
     # Após a "compra", redireciona para a página de sucesso
     return redirect(url_for("sucesso", nome=produto_info["nome"]))
